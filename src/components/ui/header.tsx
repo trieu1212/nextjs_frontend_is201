@@ -10,7 +10,7 @@ import envConfig from '@/config'
 import { toast } from '@/components/ui/use-toast'
 
 const Header = () => {
-    const {accessToken,setAccessToken} = useAppContext()
+    const { accessToken, setAccessToken,user } = useAppContext()
     const router = useRouter()
     const handleToLogin = () => {
         router.push('/login')
@@ -18,19 +18,19 @@ const Header = () => {
     const handleToRegister = () => {
         router.push('/register')
     }
-    const handleToLogout = async() =>{
-        const result = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/auth/logout`,{
-            headers:{
+    const handleToLogout = async () => {
+        const result = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/auth/logout`, {
+            headers: {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
             },
-            method:"POST"
+            method: "POST"
         })
-        if(result.status === 201){
+        if (result.status === 201) {
             toast({
                 title: 'Đăng xuất thành công',
             })
-            const logoutFromNextServer = await fetch('/api/auth/logout',{
+            const logoutFromNextServer = await fetch('/api/auth/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,11 +39,11 @@ const Header = () => {
                 body: JSON.stringify(result)
             })
             console.log(logoutFromNextServer)
-            if(logoutFromNextServer.ok){
+            if (logoutFromNextServer.ok) {
                 setAccessToken('')
                 router.push('/login')
             }
-            else{
+            else {
                 console.log('lỗi')
             }
         }
@@ -63,28 +63,33 @@ const Header = () => {
                 </div>
                 <div>
                     {accessToken ? (
-                            <Button
-                                onClick={handleToLogout}
-                                className="bg-blue-400 m-6">
+                        <>
+                            <div className='flex justify-center items-center'>
+                                <p>Xin chào {user.username}!</p>
+                                <Button
+                                    onClick={handleToLogout}
+                                    className="bg-blue-400 m-6">
                                     Đăng xuất
-                            </Button>
+                                </Button>
+                            </div>
+                        </>
                     ) : (
                         <ul className="flex gap-4 m-4">
-                        <li>
-                            <Button
-                                onClick={handleToLogin}
-                                className="bg-blue-400">
+                            <li>
+                                <Button
+                                    onClick={handleToLogin}
+                                    className="bg-blue-400">
                                     Đăng nhập
-                            </Button>
-                        </li>
-                        <li>
-                            <Button
-                                onClick={handleToRegister}
-                                className="bg-blue-400">
+                                </Button>
+                            </li>
+                            <li>
+                                <Button
+                                    onClick={handleToRegister}
+                                    className="bg-blue-400">
                                     Đăng ký
-                            </Button>
-                        </li>
-                    </ul>
+                                </Button>
+                            </li>
+                        </ul>
                     )}
                 </div>
             </header>

@@ -27,7 +27,7 @@ const formSchema = z.object({
 
 
 const LoginForm = () => {
-    const {setAccessToken} = useAppContext()
+    const {setAccessToken,setUser} = useAppContext()
     const router = useRouter()
     const { toast } = useToast()
     const form = useForm<z.infer<typeof formSchema>>({
@@ -58,7 +58,8 @@ const LoginForm = () => {
             }).then((res)=>{
                 const data = {
                     status: res.status,
-                    accessToken:result.JWTToken.accessToken
+                    accessToken:result.JWTToken.accessToken,
+                    user:result.user
                 }
                 if(!res.ok){
                     throw data
@@ -66,6 +67,7 @@ const LoginForm = () => {
                 return data
             })
             setAccessToken(resultFromNextServer.accessToken)
+            setUser(resultFromNextServer.user)
             router.push('/')
         }
         else if (result.statusCode === 401) {
