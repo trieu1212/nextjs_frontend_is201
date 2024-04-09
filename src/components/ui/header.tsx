@@ -5,14 +5,48 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Logo from '../../../public/images/Logo.png'
 import React from 'react'
+import { useAppContext } from '@/app/AppProvider'
+import envConfig from '@/config'
+import { toast } from '@/components/ui/use-toast'
 
 const Header = () => {
+    const {accessToken,setAccessToken} = useAppContext()
     const router = useRouter()
     const handleToLogin = () => {
         router.push('/login')
     }
     const handleToRegister = () => {
         router.push('/register')
+    }
+    const handleToLogout = async() =>{
+        const result = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/auth/logout`,{
+            headers:{
+                'Authorization': `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            method:"POST"
+        })
+        if(result.status === 201){
+            toast({
+                title: 'Đăng xuất thành công',
+            })
+            const logoutFromNextServer = await fetch('/api/auth/logout',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(result)
+            })
+            console.log(logoutFromNextServer)
+            if(logoutFromNextServer.ok){
+                setAccessToken('')
+                router.push('/login')
+            }
+            else{
+                console.log('lỗi')
+            }
+        }
     }
     return (
         <>
@@ -28,7 +62,14 @@ const Header = () => {
                     </Link>
                 </div>
                 <div>
-                    <ul className="flex gap-4 m-4">
+                    {accessToken ? (
+                            <Button
+                                onClick={handleToLogout}
+                                className="bg-blue-400 m-6">
+                                    Đăng xuất
+                            </Button>
+                    ) : (
+                        <ul className="flex gap-4 m-4">
                         <li>
                             <Button
                                 onClick={handleToLogin}
@@ -44,6 +85,7 @@ const Header = () => {
                             </Button>
                         </li>
                     </ul>
+                    )}
                 </div>
             </header>
         </>
