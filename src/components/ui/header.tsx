@@ -72,7 +72,7 @@ const Header = () => {
                     {accessToken ? (
                         <>
                             <div className='flex justify-center items-center'>
-                                <p>Xin chào {user.username}!</p>
+                                <p>Xin chào <Link href='/account'>{user.username}</Link>!</p>
                                 <Button
                                     onClick={handleToLogout}
                                     className="bg-blue-400 m-6">
