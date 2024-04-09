@@ -10,7 +10,7 @@ import envConfig from '@/config'
 import { toast } from '@/components/ui/use-toast'
 
 const Header = () => {
-    const { accessToken, setAccessToken,user } = useAppContext()
+    const { accessToken, setAccessToken, user, setUser } = useAppContext()
     const router = useRouter()
     const handleToLogin = () => {
         router.push('/login')
@@ -41,6 +41,13 @@ const Header = () => {
             console.log(logoutFromNextServer)
             if (logoutFromNextServer.ok) {
                 setAccessToken('')
+                setUser({
+                    username: '',
+                    email: '',
+                    password: '',
+                    phone: 0,
+                    postAmount: 0,
+                })
                 router.push('/login')
             }
             else {

@@ -17,7 +17,13 @@ interface IAppContext {
 const appContext = createContext<IAppContext>({
     accessToken: '',
     setAccessToken: (accessToken: string) => { },
-    user: {} as IUser,
+    user: {
+        username: '',
+        email: '',
+        password: '',
+        phone: 0,
+        postAmount: 0
+    },
     setUser: (user: {}) => { }
 })
 export const useAppContext = () => {
