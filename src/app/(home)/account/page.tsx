@@ -1,5 +1,6 @@
 
 
+import AccountContent from '@/app/(home)/account/account-content'
 import envConfig from '@/config'
 import { cookies } from 'next/headers'
 
@@ -21,7 +22,9 @@ const Account = () => {
     getUserinfo()
   return (
     <>
-      <div>cc</div>
+      <div className='m-12 flex justify-center items-center gap-4'>
+          <AccountContent/>
+      </div>
     </>
   )
 }
