@@ -30,7 +30,7 @@ const Footer = () => {
             <Link href='/'>
               Trang chủ
             </Link>
-            <Link href='/'>
+            <Link href='/service'>
               Các dịch vụ
             </Link>
           </div>
