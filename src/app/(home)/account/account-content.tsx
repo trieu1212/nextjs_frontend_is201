@@ -16,7 +16,7 @@ const AccountContent = () => {
     }
     return (
         <>
-            <div className='w-1/3' style={{ backgroundColor: "#13308E" }}>
+            <div className='w-1/3 border rounded-md' style={{ backgroundColor: "#13308E" }}>
                 <h2 className='text-4xl text-white ml-10 py-4'>Cài Đặt</h2>
                 <ul className='flex justify-center flex-col gap-16 text-white my-5 ml-10'>
                     <li className='cursor-pointer' onClick={() => handleGetUserInfo('Thông tin cá nhân')}>Thông tin cá nhân</li>
@@ -24,8 +24,12 @@ const AccountContent = () => {
                     <li className='cursor-pointer' onClick={() => handleGetUserInfo('Dịch vụ đã đăng ký')}>Dịch vụ đã đăng ký</li>
                 </ul>
             </div>
-            <div className='w-2/3'>
-                {option.option}
+            <div className='w-2/3 border rounded-md py-4' style={{backgroundColor:"#EAEDFF"}}>
+                <div>
+                    <h2 className='font-bold text-3xl text-center py-4'>
+                        {option.option}
+                    </h2>
+                </div>
                 <OptionAccount option={option.option} />
             </div>
         </>

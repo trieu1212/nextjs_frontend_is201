@@ -2,6 +2,7 @@
 
 import React, { Dispatch, SetStateAction, createContext, useContext } from "react";
 interface IUser {
+    id:number;
     username: string;
     email: string;
     password: string;
@@ -18,6 +19,7 @@ const appContext = createContext<IAppContext>({
     accessToken: '',
     setAccessToken: (accessToken: string) => { },
     user: {
+        id:0,
         username: '',
         email: '',
         password: '',
@@ -36,6 +38,7 @@ export const useAppContext = () => {
 export default function AppProvider({ children, initAccessToken = '' }: { children: React.ReactNode, initAccessToken?: string },) {
     const [accessToken, setAccessToken] = React.useState(initAccessToken)
     const [user, setUser] = React.useState<IUser>({
+        id:0,
         username: '',
         email: '',
         password: '',

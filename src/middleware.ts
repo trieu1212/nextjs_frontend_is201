@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('accessToken')?.value
   const {pathname} = request.nextUrl
   if(privatePaths.some(path=>pathname.startsWith(path)) && !accessToken){
-    return NextResponse.redirect(new URL('/login',request.url))
+    return NextResponse.redirect(new URL('/',request.url))
   }
   if(authPaths.some(path=>pathname.startsWith(path)) && accessToken){
     return NextResponse.redirect(new URL('/',request.url))
