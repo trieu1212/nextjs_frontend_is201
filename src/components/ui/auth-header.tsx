@@ -38,6 +38,7 @@ const AuthHeader = () => {
             if (logoutFromNextServer.ok) {
                 setAccessToken('')
                 setUser({
+                    id:0,
                     username: '',
                     email: '',
                     password: '',
