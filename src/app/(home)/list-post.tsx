@@ -3,7 +3,15 @@ import envConfig from '@/config'
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
-
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
 interface IUser {
   id: number;
   username: string;
@@ -32,6 +40,15 @@ interface IPost {
 const ListPost = (props: { location: string }) => {
   const { location } = props;
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [currentPage,setCurrentPage] =useState<number>(1)
+  const [itemPerPage, setItemPerPage] = useState<number>(3)
+  const [totalPage,setTotalPage] = useState<number>(1)
+  const handlePrevPage = () =>{
+    setCurrentPage(currentPage-1);
+  }
+  const handleNextPage = () =>{
+    setCurrentPage(currentPage+1);
+  }
   function formatMoney(amount: number): string {
     if (amount >= 1000000000) {
       return (amount / 1000000000).toFixed(1) + ' tỷ';
@@ -45,7 +62,7 @@ const ListPost = (props: { location: string }) => {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const res = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/posts?address=${location}`, {
+        const res = await fetch(`${envConfig.NEXT_PUBLIC_API_ENDPOINT}/posts?address=${location}&page=${currentPage}&itemPerPage=${itemPerPage}`, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -57,6 +74,9 @@ const ListPost = (props: { location: string }) => {
         }
 
         const data = await res.json();
+        const getTotal = data.total
+        setTotalPage(getTotal)
+        console.log(data)
         const receivedPosts: IPost[] = data.data;
         setPosts(receivedPosts);
       } catch (error) {
@@ -64,7 +84,7 @@ const ListPost = (props: { location: string }) => {
       }
     };
     getPosts();
-  }, [location]);
+  }, [location,currentPage]);
   return (
     <>
       {posts.length > 0 ? (
@@ -110,6 +130,31 @@ const ListPost = (props: { location: string }) => {
       ) : (
         <p className='p-8 text-center'>Không có bài đăng nào!</p>
       )}
+      <hr className="m-4" />
+      <div className="m-2 cursor-pointer">
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  {currentPage>1 && <PaginationPrevious onClick={handlePrevPage} />}
+                </PaginationItem>
+                {Array.from({length:totalPage},(_,index)=>index + 1).map((pageNumber)=>{
+                  return(
+                    <PaginationItem>
+                      <PaginationLink onClick={()=>setCurrentPage(pageNumber)} className={currentPage === pageNumber ? 'bg-blue-500 text-white' : ''}>
+                        {pageNumber}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )
+                })}
+                <PaginationItem>
+                  <PaginationEllipsis />
+                </PaginationItem>
+                <PaginationItem>
+                  {posts.length>0 && <PaginationNext onClick={handleNextPage} />}
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </div>
     </>
   );
 };

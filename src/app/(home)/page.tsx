@@ -5,6 +5,7 @@ import hn from '@/../../public/images/hn.jpg'
 import dn from '@/../../public/images/dn.jpg'
 import ListPost from "@/app/(home)/list-post";
 import React from "react";
+
 const items = [
   { name: 'Phòng trọ TPHCM', imageUrl: hcm, address: 'TPHCM' },
   { name: 'Phòng trọ Hà Nội', imageUrl: hn, address: 'Hà Nội' },
