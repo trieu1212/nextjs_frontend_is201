@@ -76,7 +76,6 @@ const ListPost = (props: { location: string }) => {
         const data = await res.json();
         const getTotal = data.total
         setTotalPage(getTotal)
-        console.log(data)
         const receivedPosts: IPost[] = data.data;
         setPosts(receivedPosts);
       } catch (error) {
@@ -137,9 +136,9 @@ const ListPost = (props: { location: string }) => {
                 <PaginationItem>
                   {currentPage>1 && <PaginationPrevious onClick={handlePrevPage} />}
                 </PaginationItem>
-                {Array.from({length:totalPage},(_,index)=>index + 1).map((pageNumber)=>{
+                {Array.from({length:totalPage},(_,index)=>index + 1).map((pageNumber,i)=>{
                   return(
-                    <PaginationItem>
+                    <PaginationItem key={i}>
                       <PaginationLink onClick={()=>setCurrentPage(pageNumber)} className={currentPage === pageNumber ? 'bg-blue-500 text-white' : ''}>
                         {pageNumber}
                       </PaginationLink>
