@@ -1,15 +1,15 @@
 'use client'
 import Image from "next/image";
-import hcm from '@/../../public/images/hcm.jpg'
-import hn from '@/../../public/images/hn.jpg'
-import dn from '@/../../public/images/dn.jpg'
+import la from '@/../../public/images/la.png'
+import tphcm1 from '@/../../public/images/hcm1.jpg'
+import hanoi from '@/../../public/images/hanoi.jpg'
 import ListPost from "@/app/(home)/list-post";
 import React from "react";
 
 const items = [
-  { name: 'Phòng trọ TPHCM', imageUrl: hcm, address: 'TPHCM' },
-  { name: 'Phòng trọ Hà Nội', imageUrl: hn, address: 'Hà Nội' },
-  { name: 'Phòng trọ Long An', imageUrl: dn, address: 'Long An' }
+  { name: 'Phòng trọ TPHCM', imageUrl: tphcm1, address: 'TPHCM' },
+  { name: 'Phòng trọ Hà Nội', imageUrl: hanoi, address: 'Hà Nội' },
+  { name: 'Phòng trọ Long An', imageUrl: la, address: 'Long An' }
 ]
 export default function Home() {
   const [location, setLocation] = React.useState('')
@@ -22,17 +22,15 @@ export default function Home() {
       <h3 className="mt-3 text-center">
         Kênh thông tin Phòng trọ số 1 Việt Nam - Website đăng tin cho thuê phòng trọ, nhà nguyên căn, căn hộ, ở ghép nhanh, hiệu quả với 100.000+ tin đăng và 2.500.000 lượt xem mỗi tháng.
       </h3>
-      <div className="flex justify-around mt-8">
+      <div className="flex md:flex md:justify-around md:flex-row flex-col gap-3 justify-center items-center mt-4">
         {items.map((item, index) => {
           return (
-            <div className="rounded border cursor-pointer" key={index} onClick={() => handleSetAddress(item.address)}>
-              <div style={{ width: "250px", height: "250px", position: "relative" }}>
+            <div className="grid place-items-center rounded border cursor-pointer w-52" key={index} onClick={() => handleSetAddress(item.address)}>
+              <div className="max-w-[250px] max-h-[250px]" >
                 <Image
                   src={item.imageUrl}
                   alt="Hình trọ"
                   quality={100}
-                  layout="fill"
-                  objectFit="cover"
                   className="rounded border-red-400 bg-cover"
                 />
               </div>
